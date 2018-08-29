@@ -1,13 +1,23 @@
 const path = require('path');
 const express = require('express');
-const app = express();
+const http =require('http');
+
 const request = require('request');
 const cheerio = require('cheerio');
-const url = 'https://coinmarketcap.com/all/views/all/';
+const socketIO = require('socket.io')
+const url = 'https://coinmarketcap.com/';
+const app = express();
+const server = http.createServer(app);
+const publicPath = path.join(__dirname, '/public');
+const port = process.env.port || 3333;
 
-// const osmosis = require('osmosis');
-const publicPath = path.join(__dirname, '../');
 app.use(express.static(publicPath));
+
+let io = socketIO(server);
+io.on('connection', (socket)=>{
+    socket.emit('cryptAsk')
+})
+
 let startScript = Date.now();
 request(url, (err, reponse, html)=>{
     if(!err){
@@ -24,7 +34,6 @@ request(url, (err, reponse, html)=>{
         console.log(`время выполнения ${result} ms`);
     }
 });
-const port = process.env.port || 3333;
-app.listen(port, () =>{
+server.listen(port, () =>{
     console.log(`server on ${port} is up`)
 });
