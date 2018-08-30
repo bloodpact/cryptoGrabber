@@ -1,4 +1,4 @@
 let socket =  io();
-socket.on('cryptAsk', ()=>{
-
+socket.on('cryptAsk', (crypt)=>{
+  console.log(crypt)
 })
