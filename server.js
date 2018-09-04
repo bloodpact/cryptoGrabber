@@ -29,12 +29,12 @@ function askAPI(callback){
 
 let io = socketIO(server);
 io.on('connection', (socket)=>{
-    console.log('connection established')
-   function f(){askAPI(function(items){
+   console.log('connection established')
+   function cryptAskCallback(){askAPI(function(items){
         socket.emit('cryptAsk', items)
     });
     }
-    setInterval(f, 5000)
+    setInterval(cryptAskCallback, 2000)
 });
 server.listen(port, () =>{
     console.log(`server on ${port} is up`)
