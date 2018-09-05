@@ -14,9 +14,9 @@ app.use(express.static(publicPath));
 function askAPI(callback){
       request(url, (err, reponse, html)=>{
             if(!err){
-                let  $ = cheerio.load(html);
+                const  $ = cheerio.load(html);
                 let items = [];
-                let allIems = $("tbody").children();
+                const allIems = $("tbody").children();
                 allIems.each((index)=>{
                     items.push({'currency':$("tbody").children().eq(index).children().eq(1).find("a.currency-name-container").text(),
                         'price':$("tbody").children().eq(index).children().eq(3).find("a.price").text()})
@@ -24,15 +24,15 @@ function askAPI(callback){
                 return  callback(items)
             }
       });
-};
+}
 
 
-let io = socketIO(server);
+const io = socketIO(server);
 io.on('connection', (socket)=>{
-   console.log('connection established')
+   console.log('connection established');
    function cryptAskCallback(){askAPI(function(items){
         socket.emit('cryptAsk', items)
-    });
+        });
     }
     setInterval(cryptAskCallback, 2000)
 });

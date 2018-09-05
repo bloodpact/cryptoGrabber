@@ -1,4 +1,4 @@
-let socket =  io();
+const socket =  io();
 socket.on('cryptAsk', (crypt)=>{
   console.log(crypt)
     const main = document.querySelector('ol');
